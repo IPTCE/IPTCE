@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Control - Aulas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { background-color: #0f172a; color: #f8fafc; font-family: 'Inter', sans-serif; }
+        .glass-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #1e293b; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+        
+        .badge-select {
+            display: none;
+            background-color: #3b82f6;
+            color: white;
+            font-size: 0.7rem;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+        }
+        input:checked + .badge-select { display: flex; }
+    </style>
+</head>
+<body class="min-h-screen p-4 md:p-8">
+    <div class="max-w-6xl mx-auto">
+        
+        <div class="glass-card rounded-xl p-6 mb-8 border-l-4 border-blue-500 shadow-2xl">
+            <h2 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                <i class="fas fa-plus-circle text-blue-400"></i> Nueva Configuración de Grado
+            </h2>
+            
+            <div class="mb-6 p-3 bg-amber-900/30 border border-amber-500/50 rounded-lg flex items-center gap-3">
+                <i class="fas fa-exclamation-triangle text-amber-500"></i>
+                <p class="text-sm text-amber-200">
+                    <span class="font-bold underline text-white text-md">IMPORTANTE:</span> 
+                    El primer curso a seleccionar debe ser <span class="text-white font-bold">"Asistencia IPTCE"</span> para mantener la estructura de la hoja.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-slate-400 mb-1">Nombre Abreviado (Pestaña):</label>
+                        <input type="text" id="nombreAbreviado" placeholder="Ej: 5TO PAE" 
+                            class="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-400 mb-1">Nombre Completo (Título A1):</label>
+                        <input type="text" id="nombreCompleto" placeholder="Ej: 5to Perito en Administración de Empresas" 
+                            class="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all">
+                    </div>
+                    <button id="btnCrearAula" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 px-6 rounded-lg transition-all flex items-center justify-center gap-2 shadow-lg">
+                        <i class="fas fa-save"></i> Generar Hoja de Grado
+                    </button>
+                </div>
+
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium text-slate-400">Listado de Alumnos:</label>
+                    <div class="flex gap-2">
+                        <input type="text" id="inputAlumno" placeholder="Nombre completo" 
+                            class="flex-1 bg-slate-900 border border-slate-700 rounded-lg p-2 text-sm outline-none focus:border-blue-500">
+                        <button id="btnAgregarAlumno" class="bg-blue-600 p-2 rounded-lg hover:bg-blue-500 transition-all">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                    <div id="listaAlumnos" class="bg-slate-900 border border-slate-700 rounded-lg p-3 h-40 overflow-y-auto custom-scrollbar space-y-1"></div>
+                </div>
+
+                <div>
+                    <div class="flex justify-between items-center mb-1">
+                        <label class="text-sm font-medium text-slate-400">Seleccionar Cursos:</label>
+                        <span id="contadorSeleccion" class="text-xs text-blue-400 font-bold">0 Seleccionados</span>
+                    </div>
+                    <div id="listaCursosCheck" class="bg-slate-900 border border-slate-700 rounded-lg p-3 h-52 overflow-y-auto custom-scrollbar space-y-1">
+                        <p class="text-slate-500 text-sm italic">Sincroniza los datos primero...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+            <div>
+                <h1 class="text-3xl font-bold text-white tracking-tight">Gestión de Aulas</h1>
+                <p class="text-slate-400">Sincronización de profesores y cursos.</p>
+            </div>
+            <button id="btnActualizar" class="bg-blue-600 hover:bg-blue-500 text-white font-semibold py-3 px-8 rounded-lg transition-all flex items-center gap-2 shadow-lg active:scale-95">
+                <i class="fas fa-sync-alt" id="iconSync"></i> Sincronizar Cursos
+            </button>
+        </div>
+
+        <div id="statusMsg" class="hidden mb-6 p-4 rounded-lg text-center font-medium"></div>
+
+        <div class="glass-card rounded-xl overflow-hidden shadow-2xl">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left">
+                    <thead>
+                        <tr class="bg-slate-800/80 text-slate-300 uppercase text-xs tracking-widest">
+                            <th class="px-6 py-4 font-bold">Curso</th>
+                            <th class="px-6 py-4 font-bold">Profesor</th>
+                            <th class="px-6 py-4 font-bold text-center">Contraseña</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaCursos" class="divide-y divide-slate-700/50"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script src="script3.js"></script>
+</body>
+</html>

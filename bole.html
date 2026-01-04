@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Boletas Anuales</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+    <style>
+        body { background-color: #0f172a; color: #f1f5f9; font-family: 'Inter', sans-serif; }
+        .card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); }
+    </style>
+</head>
+<body class="min-h-screen p-6">
+    <div class="max-w-4xl mx-auto">
+        <header class="mb-10 text-center">
+            <h1 class="text-3xl font-extrabold text-white">Generador de Boletas 2025</h1>
+            <p class="text-slate-400">Reporte Anual de Rendimiento Académico</p>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="card p-6 rounded-2xl shadow-xl h-fit space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-blue-400 uppercase mb-2">Seleccionar Grado</label>
+                    <select id="selectGrado" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm outline-none focus:ring-2 focus:ring-blue-500 text-white"></select>
+                </div>
+                <button id="btnCargarAlumnos" class="w-full bg-blue-600 hover:bg-blue-500 text-white py-3 rounded-xl font-bold transition-all">
+                    <i class="fas fa-search mr-2"></i> Buscar Alumnos
+                </button>
+            </div>
+
+            <div class="md:col-span-2 card rounded-2xl overflow-hidden shadow-xl">
+                <div class="p-4 bg-slate-800/50 border-b border-slate-700">
+                    <h3 class="text-xs font-bold uppercase text-slate-300">Listado de Estudiantes</h3>
+                </div>
+                <div class="max-h-[500px] overflow-y-auto" id="contenedorLista">
+                    <table class="w-full text-left">
+                        <tbody id="tablaAlumnos" class="divide-y divide-slate-800"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="loader" class="hidden fixed inset-0 bg-slate-950/90 backdrop-blur-sm z-50 flex flex-col items-center justify-center">
+        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-blue-500 mb-4"></div>
+        <p id="loaderMsg" class="text-blue-400 font-mono text-xs uppercase tracking-widest"></p>
+    </div>
+
+    <script src="script7.js"></script>
+</body>
+</html>

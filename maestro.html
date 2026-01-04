@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Docente - Registro Anual</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { background-color: #0b0f1a; color: #e2e8f0; font-family: 'Inter', sans-serif; }
+        .glass-panel { background: rgba(23, 32, 53, 0.8); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.05); }
+        input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+    </style>
+</head>
+<body class="min-h-screen p-4 md:p-8">
+    <div class="max-w-5xl mx-auto">
+        <header class="mb-8 flex justify-between items-center">
+            <div>
+                <h1 class="text-3xl font-bold text-white tracking-tight">Portal Docente</h1>
+                <p class="text-slate-400">Ingreso de calificaciones por bimestre</p>
+            </div>
+            <div class="text-right">
+                <span id="reloj" class="text-blue-400 font-mono text-xl font-bold"></span>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+            <div class="glass-panel p-4 rounded-xl">
+                <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Seleccionar Grado</label>
+                <select id="selectGrado" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500 outline-none"></select>
+            </div>
+            <div class="glass-panel p-4 rounded-xl">
+                <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Bimestre</label>
+                <select id="selectBimestre" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+                    <option value="1 BIM">1er Bimestre</option>
+                    <option value="2 BIM">2do Bimestre</option>
+                    <option value="3 BIM">3er Bimestre</option>
+                    <option value="4 BIM">4to Bimestre</option>
+                    <option value="5 BIM">5to Bimestre</option>
+                </select>
+            </div>
+            <div class="glass-panel p-4 rounded-xl">
+                <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Curso / Materia</label>
+                <select id="selectCurso" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500 outline-none" disabled>
+                    <option value="">Primero seleccione grado...</option>
+                </select>
+            </div>
+            <div class="glass-panel p-4 rounded-xl">
+                <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Contraseña</label>
+                <div class="relative">
+                    <input type="password" id="passDocente" placeholder="****" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+                    <button id="btnValidar" class="absolute right-2 top-1.5 bg-blue-600 hover:bg-blue-500 text-white text-[10px] font-bold py-1 px-3 rounded">Entrar</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="seccionNotas" class="hidden glass-panel rounded-2xl overflow-hidden shadow-2xl border-t-4 border-blue-500">
+            <div class="p-4 bg-slate-800/50 border-b border-slate-700 flex justify-between items-center">
+                <h3 class="font-bold text-blue-300 text-sm uppercase" id="lblCursoActivo">---</h3>
+                <span id="indicadorModo" class="text-xs text-amber-500 font-bold italic">Desglose: Zona + Examen</span>
+            </div>
+            <div class="grid grid-cols-12 gap-2 px-6 py-2 bg-slate-900 text-[10px] font-bold text-slate-500 uppercase">
+                <div class="col-span-1">No.</div>
+                <div class="col-span-5 text-left">Alumno</div>
+                <div class="col-span-2 text-center">Zona</div>
+                <div class="col-span-2 text-center">Examen</div>
+                <div class="col-span-2 text-center text-blue-400">Total</div>
+            </div>
+            <div class="max-h-[500px] overflow-y-auto p-4 space-y-2 custom-scrollbar" id="contenedorAlumnos"></div>
+            <div class="p-6 bg-slate-900 border-t border-slate-700 flex justify-end gap-4">
+                <button onclick="location.reload()" class="px-6 py-2 text-sm font-bold text-slate-400 hover:text-white">Cancelar</button>
+                <button id="btnGuardarNotas" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2 px-8 rounded-lg shadow-lg active:scale-95 transition-all">
+                    Guardar Notas Oficiales
+                </button>
+            </div>
+        </div>
+    </div>
+    <script src="script4.js"></script>
+</body>
+</html>

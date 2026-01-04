@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>IPTCE | Enterprise Portal</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f4ff',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            900: '#1e3a8a',
+                            dark: '#0f172a'
+                        }
+                    },
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                }
+            }
+        }
+    </script>
+
+    <style>
+        :root { --glass: rgba(255, 255, 255, 0.7); --border: rgba(255, 255, 255, 0.3); }
+        .dark { --glass: rgba(15, 23, 42, 0.7); --border: rgba(51, 65, 85, 0.4); }
+        body { background: #f8fafc; transition: background 0.4s ease; overflow-x: hidden; }
+        .dark body { background: #020617; }
+        .glass-card {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+        }
+        .animated-mesh {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(37, 99, 235, 0.1) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(29, 78, 216, 0.05) 0px, transparent 50%);
+        }
+        .nav-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .nav-card:hover { transform: translateY(-5px); }
+        #preloader { transition: opacity 0.5s ease, visibility 0.5s; }
+        ::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="antialiased font-sans">
+
+    <div id="preloader" class="fixed inset-0 z-[100] bg-brand-900 flex items-center justify-center">
+        <div class="flex flex-col items-center">
+            <div class="w-16 h-16 border-4 border-white/20 border-t-white rounded-full animate-spin"></div>
+            <p class="mt-4 text-white font-bold tracking-[0.3em] text-sm">IPTCE SYSTEM</p>
+        </div>
+    </div>
+
+    <div class="animated-mesh"></div>
+
+    <div class="min-h-screen flex items-center justify-center p-4">
+        
+        <div id="login-screen" class="hidden w-full max-w-[420px] scale-95 opacity-0 transition-all duration-500">
+            <div class="glass-card rounded-[2.5rem] p-10">
+                <div class="flex justify-center mb-8">
+                    <div class="w-20 h-20 bg-brand-700 rounded-3xl flex items-center justify-center shadow-2xl rotate-3">
+                        <i class="fa-solid fa-shield-halved text-white text-3xl"></i>
+                    </div>
+                </div>
+                
+                <h1 class="text-3xl font-black text-center text-slate-900 dark:text-white mb-2 tracking-tight">Portal IPTCE</h1>
+                <p class="text-center text-slate-500 dark:text-slate-400 font-medium mb-10 text-sm">Ingrese sus credenciales</p>
+
+                <form id="login-form" class="space-y-4">
+                    <div class="space-y-1">
+                        <label class="text-xs font-bold uppercase tracking-wider text-slate-400 px-2">Identificación</label>
+                        <div class="relative group">
+                            <i class="fa-solid fa-user absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-brand-600 transition-colors"></i>
+                            <input type="text" id="user" placeholder=" " required class="w-full bg-slate-100 dark:bg-slate-800/50 border-none rounded-2xl py-4 pl-14 pr-6 focus:ring-2 focus:ring-brand-600 outline-none dark:text-white transition-all">
+                        </div>
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="text-xs font-bold uppercase tracking-wider text-slate-400 px-2">Clave</label>
+                        <div class="relative group">
+                            <i class="fa-solid fa-key absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-brand-600 transition-colors"></i>
+                            <input type="password" id="pass" placeholder=" " required class="w-full bg-slate-100 dark:bg-slate-800/50 border-none rounded-2xl py-4 pl-14 pr-6 focus:ring-2 focus:ring-brand-600 outline-none dark:text-white transition-all">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full bg-brand-700 hover:bg-brand-600 text-white font-bold py-5 rounded-2xl shadow-xl shadow-brand-700/30 transition-all active:scale-[0.98] mt-4">
+                        ACCEDER
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div id="main-screen" class="hidden w-full max-w-6xl scale-95 opacity-0 transition-all duration-500">
+            <div class="w-full">
+                <div class="flex items-center justify-between mb-10 px-4">
+                    <div>
+                        <h2 class="text-3xl font-black text-slate-900 dark:text-white tracking-tight" id="greeting">...</h2>
+                        <p class="text-slate-500 dark:text-slate-400 font-semibold">Panel de Control Administrativo</p>
+                    </div>
+                    <div class="flex gap-3">
+                        <button onclick="toggleMode()" class="w-12 h-12 glass-card rounded-2xl flex items-center justify-center text-slate-700 dark:text-white">
+                            <i class="fa-solid fa-moon dark:hidden"></i>
+                            <i class="fa-solid fa-sun hidden dark:block"></i>
+                        </button>
+                        <button onclick="logout()" class="w-12 h-12 glass-card rounded-2xl flex items-center justify-center text-red-500">
+                            <i class="fa-solid fa-power-off"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 lg:grid-cols-5 gap-6 mb-8 px-2">
+                    <a href="profesor.html" class="nav-card glass-card p-8 rounded-[2.5rem] flex flex-col items-center text-center">
+                        <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900/30 rounded-2xl flex items-center justify-center text-blue-600 mb-4">
+                            <i class="fa-solid fa-chalkboard-user text-2xl"></i>
+                        </div>
+                        <span class="font-bold text-slate-900 dark:text-white">Docentes</span>
+                    </a>
+
+                    <a href="cursos.html" class="nav-card glass-card p-8 rounded-[2.5rem] flex flex-col items-center text-center">
+                        <div class="w-16 h-16 bg-amber-100 dark:bg-amber-900/30 rounded-2xl flex items-center justify-center text-amber-600 mb-4">
+                            <i class="fa-solid fa-book-open text-2xl"></i>
+                        </div>
+                        <span class="font-bold text-slate-900 dark:text-white">Cursos</span>
+                    </a>
+
+                    <a href="aula.html" class="nav-card glass-card p-8 rounded-[2.5rem] flex flex-col items-center text-center">
+                        <div class="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-2xl flex items-center justify-center text-green-600 mb-4">
+                            <i class="fa-solid fa-school-flag text-2xl"></i>
+                        </div>
+                        <span class="font-bold text-slate-900 dark:text-white">Aulas</span>
+                    </a>
+
+                    <a href="code.html" class="nav-card glass-card p-8 rounded-[2.5rem] flex flex-col items-center text-center">
+                        <div class="w-16 h-16 bg-rose-100 dark:bg-rose-900/30 rounded-2xl flex items-center justify-center text-rose-600 mb-4">
+                            <i class="fa-solid fa-chart-line text-2xl"></i>
+                        </div>
+                        <span class="font-bold text-slate-900 dark:text-white">Promedios</span>
+                    </a>
+
+                    <a href="bole.html" class="nav-card glass-card p-8 rounded-[2.5rem] flex flex-col items-center text-center">
+                        <div class="w-16 h-16 bg-purple-100 dark:bg-purple-900/30 rounded-2xl flex items-center justify-center text-purple-600 mb-4">
+                            <i class="fa-solid fa-print text-2xl"></i>
+                        </div>
+                        <span class="font-bold text-slate-900 dark:text-white">Notas</span>
+                    </a>
+                </div>
+
+                <div class="px-4 py-6 mt-4">
+                    <div class="grid grid-cols-1 md:grid-cols-5 gap-4 text-[10px] uppercase font-bold tracking-widest text-slate-400 dark:text-slate-500">
+                        <div class="flex items-center gap-2"><span class="w-5 h-5 rounded-full border border-slate-300 flex items-center justify-center">1</span> Docentes</div>
+                        <div class="flex items-center gap-2"><span class="w-5 h-5 rounded-full border border-slate-300 flex items-center justify-center">2</span> Cursos</div>
+                        <div class="flex items-center gap-2"><span class="w-5 h-5 rounded-full border border-slate-300 flex items-center justify-center">3</span> Aulas</div>
+                        <div class="flex items-center gap-2"><span class="w-5 h-5 rounded-full border border-slate-300 flex items-center justify-center">4</span> Promedios</div>
+                        <div class="flex items-center gap-2"><span class="w-5 h-5 rounded-full border border-slate-300 flex items-center justify-center">5</span> Boletas</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.addEventListener('load', () => {
+            initTheme();
+            setTimeout(() => {
+                document.getElementById('preloader').style.opacity = '0';
+                setTimeout(() => document.getElementById('preloader').style.visibility = 'hidden', 500);
+                checkAuth();
+            }, 1000);
+        });
+
+        function checkAuth() {
+            const isLogged = localStorage.getItem('iptce_pro_session') === 'true';
+            const target = isLogged ? 'main-screen' : 'login-screen';
+            const screen = document.getElementById(target);
+            screen.classList.remove('hidden');
+            setTimeout(() => {
+                screen.classList.remove('scale-95', 'opacity-0');
+                if(isLogged) setDynamicData();
+            }, 100);
+        }
+
+        document.getElementById('login-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const u = document.getElementById('user').value.toUpperCase().trim();
+            const p = document.getElementById('pass').value;
+
+            if (u === "MAESTRO" && p === "1982") {
+                window.location.href = "maestro.html";
+                return;
+            }
+
+            if (u === "ADMIPTCE" && p === "1982") {
+                localStorage.setItem('iptce_pro_session', 'true');
+                location.reload();
+            } else {
+                alert("Usuario o Clave Incorrectos.");
+            }
+        });
+
+        function setDynamicData() {
+            const hour = new Date().getHours();
+            let g = "Buen día";
+            if(hour >= 12 && hour < 18) g = "Buenas tardes";
+            if(hour >= 18 || hour < 5) g = "Buenas noches";
+            document.getElementById('greeting').innerText = `¡${g}!`;
+        }
+
+        function initTheme() {
+            if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        }
+
+        function toggleMode() {
+            const isDark = document.documentElement.classList.toggle('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        }
+
+        function logout() {
+            localStorage.removeItem('iptce_pro_session');
+            location.reload();
+        }
+    </script>
+</body>
+</html>

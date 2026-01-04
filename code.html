@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consolidado Académico Multi-Grado</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+    <style>
+        body { background-color: #0b0f1a; color: #e2e8f0; font-family: 'Inter', sans-serif; }
+        .glass-panel { background: rgba(23, 32, 53, 0.8); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.05); }
+        .status-dot { height: 10px; width: 10px; border-radius: 50%; display: inline-block; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+        select[multiple] { height: 120px !important; }
+    </style>
+</head>
+<body class="min-h-screen p-4 md:p-8">
+    <div class="max-w-6xl mx-auto">
+        <header class="mb-8 flex justify-between items-center">
+            <div>
+                <h1 class="text-3xl font-bold text-white">Ranking General</h1>
+                <p class="text-slate-400 text-sm">Consolidado Multi-Grado</p>
+            </div>
+            <button id="btnSincronizar" class="bg-blue-600 hover:bg-blue-500 text-white px-6 py-2 rounded-xl font-bold shadow-lg transition-all active:scale-95">
+                <i class="fas fa-sync-alt mr-2"></i>ACTUALIZAR DATOS
+            </button>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <div class="glass-panel p-6 rounded-2xl h-fit space-y-4">
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-500 uppercase mb-2 tracking-widest">Seleccionar Grados (Ctrl para varios)</label>
+                    <select id="selectGrado" multiple class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-sm text-white outline-none focus:ring-2 focus:ring-blue-500"></select>
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-500 uppercase mb-2 tracking-widest">Bimestre</label>
+                    <select id="selectBimestre" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-sm text-white outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="1 BIM">1er Bimestre</option>
+                        <option value="2 BIM">2do Bimestre</option>
+                        <option value="3 BIM">3er Bimestre</option>
+                        <option value="4 BIM">4to Bimestre</option>
+                        <option value="5 BIM">5to Bimestre</option>
+                    </select>
+                </div>
+                <button id="btnGenerarVista" class="w-full bg-slate-700 hover:bg-slate-600 text-white py-3 rounded-xl font-bold transition-all">Generar Ranking</button>
+                <button id="btnGenerarPDF" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white py-3 rounded-xl font-bold shadow-lg transition-all flex justify-center items-center gap-2">
+                    <i class="fas fa-file-pdf"></i> Descargar PDF
+                </button>
+            </div>
+
+            <div class="md:col-span-3 glass-panel rounded-2xl overflow-hidden shadow-2xl">
+                <div class="p-4 bg-slate-800/50 flex justify-between items-center border-b border-slate-700">
+                    <h3 id="labelEstado" class="text-blue-300 font-bold text-xs uppercase tracking-widest">Seleccione los grados a promediar</h3>
+                </div>
+                <div class="max-h-[550px] overflow-y-auto custom-scrollbar">
+                    <table class="w-full text-left text-sm">
+                        <thead class="bg-slate-900 text-[10px] uppercase text-slate-500 font-bold sticky top-0">
+                            <tr>
+                                <th class="px-6 py-3 text-center">Pos</th>
+                                <th class="px-6 py-3">Alumno</th>
+                                <th class="px-6 py-3">Grado</th>
+                                <th class="px-6 py-3 text-center">Promedio</th>
+                                <th class="px-6 py-3 text-center"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaRanking"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="loader" class="hidden fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex flex-col items-center justify-center">
+        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mb-4"></div>
+        <p id="loaderMsg" class="text-blue-400 font-mono text-xs uppercase tracking-widest"></p>
+    </div>
+
+    <script src="script6.js"></script>
+</body>
+</html>
