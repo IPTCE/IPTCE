@@ -88,7 +88,7 @@ async function generarBoletaAnual(nombreAlumno) {
 
     // ENCABEZADO (Mantenemos tu estilo profesional)
     doc.setFont("times", "normal").setTextColor(azulMarino[0], azulMarino[1], azulMarino[2]).setFontSize(14);
-    doc.text("Instituto Profesional de Técnicas Comerciales Especializas", 115, 15, { align: "center" });
+    doc.text("Instituto Profesional de Técnicas Comerciales Especializadas", 115, 15, { align: "center" });
     doc.setFont("times", "bold").setFontSize(20);
     doc.text("Colegio IPTCE", 115, 23, { align: "center" });
     doc.setFont("times", "normal").setFontSize(9).setTextColor(80, 80, 80);
